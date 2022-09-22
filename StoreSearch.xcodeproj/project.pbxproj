@@ -73,8 +73,8 @@
 				0BC4AC672879F10000A50DD9 /* Info.plist */,
 				0B7D9C552889FC2400C86902 /* SearchResult.swift */,
 				0B5C933A288C66320058C3A9 /* SearchResultCell.xib */,
-				0B13B47128983BAB00E69A69 /* SearchResultCell.swift */,
 				0B46529A28999A5B002B1560 /* NothingFoundCell.xib */,
+				0B13B47128983BAB00E69A69 /* SearchResultCell.swift */,
 			);
 			path = StoreSearch;
 			sourceTree = "<group>";
