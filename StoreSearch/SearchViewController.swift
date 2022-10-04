@@ -40,6 +40,8 @@ class SearchViewController: UIViewController {
     
     var isLoading = false
     
+    var dataTask: URLSessionDataTask?
+    
     struct TableView {
         struct CellIdentifiers {
             static let searchResultCell = "SearchResultCell"
@@ -93,17 +95,20 @@ extension SearchViewController: UISearchBarDelegate {
         if !searchBar.text!.isEmpty {
             
             searchBar.resignFirstResponder()
+            dataTask?.cancel()
             hasSearch = true
             searchResults = []
             
-            
+            isLoading = true
+            tableView.reloadData()
             let url = iTunesURL(searchText: searchBar.text!)
             
             let session = URLSession.shared
             
-            let dataTask = session.dataTask(with: url) { data, response, error in
-                if let error = error {
-                    print("Failure!\(error.localizedDescription)")
+            dataTask = session.dataTask(with: url) { data, response, error in
+                if let error = error as? NSError, error.code == -999 {
+                    return //Search was cancelled
+                    
                 } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     if let data = data {
                         self.searchResults = self.parse(data: data)
@@ -118,16 +123,16 @@ extension SearchViewController: UISearchBarDelegate {
                 } else {
                     print("Failure \(response!)")
                 }
+                
+                DispatchQueue.main.async {
+                    self.hasSearch = false
+                    self.isLoading = false
+                    self.tableView.reloadData()
+                    self.showNetworkError()
+                }
+                
             }
-            
-            DispatchQueue.main.async {
-                self.hasSearch = false
-                self.isLoading = false
-                self.tableView.reloadData()
-                self.showNetworkError()
-            }
-            
-            dataTask.resume()
+            dataTask?.resume()
         }
     }
 }
