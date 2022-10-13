@@ -17,8 +17,6 @@ func < (lhs: SearchResult, rhs: SearchResult) -> Bool {
     return lhs.artist.localizedStandardCompare(rhs.artist) == .orderedAscending
 }
 
-
-
 class SearchResult: Codable, CustomStringConvertible {
 
     var description: String {
