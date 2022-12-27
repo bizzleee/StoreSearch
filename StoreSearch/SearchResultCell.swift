@@ -24,7 +24,12 @@ class SearchResultCell: UITableViewCell {
         let selectedView = UIView(frame: CGRect.zero)
         selectedView.backgroundColor = UIColor(named: "SearchBar")?.withAlphaComponent(0.5)
         selectedBackgroundView = selectedView
+        artistNameLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        artistNameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        nameLabel.adjustsFontForContentSizeCategory = true
     }
+    
     
     
     func configure(for result: SearchResult) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NotificationCenter
 
 class SearchViewController: UIViewController {
     
@@ -14,6 +15,8 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
    
 
+    var landscapeVC: LandscapeViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -57,7 +60,11 @@ class SearchViewController: UIViewController {
     
 //MARK: Helper methods
     
+    
+    
+    
     func iTunesURL(searchText: String, category: Int) -> URL {
+        
         let kind:String
         switch category {
         case 1: kind = "musicTrack"
@@ -77,7 +84,62 @@ class SearchViewController: UIViewController {
         return url!
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        switch newCollection.verticalSizeClass {
+        case .compact:
+            showLandscape(with: coordinator)
+        case .regular, .unspecified:
+            hideLandscape(with: coordinator)
+        @unknown default:
+            break
+        }
+    }
+    
+    
+    
+    func showLandscape(with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        guard landscapeVC == nil else { return }
+        
+        landscapeVC = storyboard!.instantiateViewController(withIdentifier: "LandscapeViewController") as? LandscapeViewController
+        
+        if let controller = landscapeVC {
+            controller.view.frame = view.bounds
+            controller.view.alpha = 0
+            
+            view.addSubview(controller.view)
+            addChild(controller)
+            coordinator.animate(alongsideTransition: { _ in
+                controller.view.alpha = 1
+                self.searchBar.resignFirstResponder()
+                if self.presentedViewController != nil {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }, completion: { _ in 
+                controller.didMove(toParent: self)
+            })
+        }
+
+    }
+    
+    func hideLandscape(with coordinator: UIViewControllerTransitionCoordinator) {
+        if let controller = landscapeVC {
+            controller.willMove(toParent: nil)
+            coordinator.animate(alongsideTransition: { _ in
+                controller.view.alpha = 0
+            }, completion: { _ in
+                controller.view.removeFromSuperview()
+                controller.removeFromParent()
+                self.landscapeVC = nil
+            })
+        }
+    }
+    
     func performSearch() {
+        
         if !searchBar.text!.isEmpty {
             
             searchBar.resignFirstResponder()
@@ -117,7 +179,6 @@ class SearchViewController: UIViewController {
                     self.tableView.reloadData()
                     self.showNetworkError()
                 }
-                
             }
             dataTask?.resume()
         }
@@ -143,18 +204,37 @@ class SearchViewController: UIViewController {
         
         present(alert, animated: true,completion: nil)
     }
+    
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            let detailViewcontroller = segue.destination as! DetailViewController
+            
+            let indexPath = sender as! IndexPath
+            
+            let searchResult = searchResults[indexPath.row]
+            
+            detailViewcontroller.searchResult = searchResult
+            
+        }
+    }
+    
+ 
 }
 
+
+
+
+//MARK: - UISearchBarDelegate
+
 extension SearchViewController: UISearchBarDelegate {
-    
-    
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         performSearch()
     }
-    
-    
 }
+
+//MARK: - UITableViewDelegate and UITableViewDataSource
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -178,9 +258,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        performSegue(withIdentifier: "ShowDetail", sender: indexPath)
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -191,11 +276,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             spinner.startAnimating()
             
             return cell
+            
         } else
         
         if searchResults.count == 0 {
             
             return tableView.dequeueReusableCell(withIdentifier: TableView.CellIdentifiers.nothingFoundCell, for: indexPath)
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: TableView.CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
             
@@ -210,5 +297,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
+    
+    
   }
 

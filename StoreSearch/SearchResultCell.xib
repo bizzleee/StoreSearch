@@ -24,7 +24,7 @@
                         </constraints>
                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="thin"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2p-Wi-ng7">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2p-Wi-ng7">
                         <rect key="frame" x="84" y="16" width="275" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="EMH-5V-dVt"/>
@@ -34,7 +34,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EIv-sy-BN8">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EIv-sy-BN8">
                         <rect key="frame" x="84" y="46" width="275" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="UoB-Br-VmT"/>
@@ -46,13 +46,13 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="L2p-Wi-ng7" firstAttribute="top" secondItem="gGS-KO-hJ3" secondAttribute="top" constant="16" id="6fe-hM-plQ"/>
+                    <constraint firstItem="L2p-Wi-ng7" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gGS-KO-hJ3" secondAttribute="top" constant="16" id="6fe-hM-plQ"/>
                     <constraint firstItem="L2p-Wi-ng7" firstAttribute="leading" secondItem="t7R-wr-Z5L" secondAttribute="trailing" constant="8" id="FPg-aG-tuV"/>
                     <constraint firstAttribute="trailing" secondItem="EIv-sy-BN8" secondAttribute="trailing" constant="16" id="Jpw-am-pZq"/>
                     <constraint firstAttribute="trailing" secondItem="L2p-Wi-ng7" secondAttribute="trailing" constant="16" id="PjJ-gK-CBJ"/>
                     <constraint firstItem="EIv-sy-BN8" firstAttribute="top" secondItem="L2p-Wi-ng7" secondAttribute="bottom" constant="8" id="cEL-Dt-ejZ"/>
                     <constraint firstItem="t7R-wr-Z5L" firstAttribute="leading" secondItem="gGS-KO-hJ3" secondAttribute="leading" constant="16" id="e7r-zK-ImI"/>
-                    <constraint firstAttribute="bottom" secondItem="EIv-sy-BN8" secondAttribute="bottom" constant="16" id="mIn-7i-9In"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EIv-sy-BN8" secondAttribute="bottom" constant="16" id="mIn-7i-9In"/>
                     <constraint firstItem="EIv-sy-BN8" firstAttribute="leading" secondItem="t7R-wr-Z5L" secondAttribute="trailing" constant="8" id="qLI-Wv-MC8"/>
                     <constraint firstItem="t7R-wr-Z5L" firstAttribute="top" secondItem="gGS-KO-hJ3" secondAttribute="top" constant="10" id="tdg-Ff-ALr"/>
                 </constraints>
